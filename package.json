@@ -1,0 +1,32 @@
+{
+  "name": "webforge",
+  "version": "0.1.0",
+  "description": "CLI for creating web projects",
+  "main": "dist/index.js",
+  "bin": {
+    "webforge": "dist/index.js"
+  },
+  "scripts": {
+    "build": "tsc"
+  },
+  "keywords": [
+    "cli",
+    "web",
+    "scaffolding",
+    "typescript"
+  ],
+  "author": "",
+  "license": "MIT",
+  "devEngines": {
+    "packageManager": {
+      "name": "pnpm",
+      "version": "^11.7.0",
+      "onFail": "download"
+    }
+  },
+  "type": "module",
+  "devDependencies": {
+    "@types/node": "^26.6.3",
+    "typescript": "^7.0.2"
+  }
+}
