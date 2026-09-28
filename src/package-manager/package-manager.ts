@@ -26,6 +26,15 @@ const PACKAGE_MANAGERS: Record<PackageManager, PackageManagerDefinition> = {
     }
 }
 
+export function isPackageManager(
+    value: string
+): value is PackageManager {
+    return Object.hasOwn(
+        PACKAGE_MANAGERS,
+        value
+    );
+}
+
 export async function installDependencies(
     packageManager: PackageManager,
     projectDirectory: string

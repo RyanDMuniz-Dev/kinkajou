@@ -2,14 +2,15 @@
 
 import { createProject } from "../project/project-generator.js";
 import { promptForProject } from "./interactive-cli.js";
-import { installDependencies } from "../package-manager/package-manager.js";
+import { installDependencies, isPackageManager, type PackageManager } from "../package-manager/package-manager.js";
 import { join } from "node:path";
 
 interface ParsedArguments {
     command: string | undefined;
     projectName: string | undefined;
     templateName: string | undefined;
-    install: boolean
+    install: boolean;
+    packageManager: PackageManager;
 }
 
 function parseArguments(args: string[]) : ParsedArguments {
@@ -18,6 +19,7 @@ function parseArguments(args: string[]) : ParsedArguments {
 
     let templateName = "none";
     let install = false;
+    let packageManager: PackageManager = "pnpm";
 
     for (let index = 2; index < args.length; index++) {
         const argument = args[index];
@@ -42,6 +44,26 @@ function parseArguments(args: string[]) : ParsedArguments {
             continue;
         }
 
+        if (argument === "--pm") {
+            const value = args[index + 1];
+            if (!value) {
+                throw new Error(
+                    "The --pm option requires a package manager"
+                );
+            }
+
+            if (!isPackageManager(value)) {
+                throw new Error(
+                    `Unknown package manager: ${value}`
+                );
+            }
+
+            packageManager = value;
+            index++;
+            
+            continue
+        }
+
         throw new Error(
             `Unknown option: ${argument}`
         );
@@ -51,14 +73,16 @@ function parseArguments(args: string[]) : ParsedArguments {
         command,
         projectName,
         templateName,
-        install
+        install,
+        packageManager
     }
 }
 
 async function handleNewCommand(
     projectName: string | undefined,
     templateName: string | undefined,
-    install: boolean
+    install: boolean,
+    packageManager: PackageManager
 ): Promise<void> {
     if(!projectName) {
         const answers = await promptForProject();
@@ -74,7 +98,7 @@ async function handleNewCommand(
 
     if (install) {
         await installDependencies(
-            "pnpm",
+            packageManager,
             join(process.cwd(), projectName)
         )
     }
@@ -91,14 +115,16 @@ async function main(): Promise<void> {
         command,
         projectName,
         templateName,
-        install
+        install,
+        packageManager
     } = parseArguments(args);
 
     if (command === "new") {
         await handleNewCommand(
             projectName,
             templateName,
-            install
+            install,
+            packageManager
         );
 
         return;
