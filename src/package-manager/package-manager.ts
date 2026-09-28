@@ -1,4 +1,4 @@
-import { runProcess } from "./process-runner.js";
+import { runProcess } from "../system/process-runner.js";
 
 export type PackageManager = | "pnpm" | "npm" | "yarn" | "bun";
 

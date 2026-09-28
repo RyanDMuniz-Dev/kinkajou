@@ -1,23 +1,31 @@
 import { spawn } from "node:child_process";
-import { error } from "node:console";
 
-interface RunProcessOption {
+interface RunProcessOptions {
     readonly cwd?: string;
 }
 
 export function runProcess(
     command: string,
     args: string[],
-    options: RunProcessOption = {}
-) : Promise<void> {
+    options: RunProcessOptions = {}
+): Promise<void> {
     return new Promise((resolve, reject) => {
+        const isWindows = process.platform === "win32";
+
+        const executable = isWindows
+            ? process.env.ComSpec ?? "cmd.exe"
+            : command;
+
+        const processArgs = isWindows
+            ? ["/d", "/s", "/c", command, ...args]
+            : args;
+
         const child = spawn(
-            command,
-            args,
+            executable,
+            processArgs,
             {
                 cwd: options.cwd,
-                stdio: "inherit",
-                shell: process.platform === "win32"
+                stdio: "inherit"
             }
         );
 
@@ -33,7 +41,7 @@ export function runProcess(
 
             reject(
                 new Error(
-                    `Process "${command}" exited with code ${code}`
+                    `Process "${command}" exited with code ${code}.`
                 )
             );
         });

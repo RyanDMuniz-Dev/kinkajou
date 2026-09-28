@@ -1,8 +1,8 @@
 #!/usr/bin/env node
 
-import { createProject } from "./project-generator.js";
+import { createProject } from "../project/project-generator.js";
 import { promptForProject } from "./interactive-cli.js";
-import { installDependencies } from "./package-manager.js";
+import { installDependencies } from "../package-manager/package-manager.js";
 import { join } from "node:path";
 
 interface ParsedArguments {

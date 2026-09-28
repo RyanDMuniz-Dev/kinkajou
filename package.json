@@ -1,10 +1,10 @@
 {
   "name": "webforge",
-  "version": "0.5.0",
+  "version": "0.5.2",
   "description": "CLI for creating web projects",
   "main": "dist/index.js",
   "bin": {
-    "webforge": "dist/index.js"
+    "webforge": "dist/cli/index.js"
   },
   "scripts": {
     "build": "tsc"

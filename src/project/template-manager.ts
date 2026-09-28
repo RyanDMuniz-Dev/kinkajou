@@ -15,14 +15,14 @@ const TEMPLATE_REGISTRY: Record<TemplateName, TemplateDefinition> = {
         name: "none",
         description: "Pure HTML, CSS and JavaScript",
         directory: fileURLToPath(
-            new URL("../templates/none", import.meta.url)
+            new URL("../../templates/none", import.meta.url)
         )
     },
     "vite-ts": {
         name: "vite-ts",
         description: "Vite + TypeScript",
         directory: fileURLToPath(
-            new URL("../templates/vite-ts", import.meta.url)
+            new URL("../../templates/vite-ts", import.meta.url)
         )
     }
 }
@@ -45,6 +45,6 @@ export function getTemplate(name: string): TemplateDefinition {
     return TEMPLATE_REGISTRY[name];
 }
 
-export function getTemplatesList(): TemplateDefinition[] {
+export function getTemplates(): TemplateDefinition[] {
     return Object.values(TEMPLATE_REGISTRY);
 }

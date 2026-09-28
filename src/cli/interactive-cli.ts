@@ -2,9 +2,9 @@ import { createInterface } from "node:readline/promises";
 import { stdin as input, stdout as output } from "node:process";
 
 import {
-  getTemplatesList,
+  getTemplates,
   type TemplateDefinition
-} from "./template-manager.js";
+} from "../project/template-manager.js";
 
 interface ProjectAnswers {
   readonly projectName: string;
@@ -38,7 +38,7 @@ export async function promptForProject(): Promise<ProjectAnswers> {
 async function promptForTemplate(
   rl: ReturnType<typeof createInterface>
 ): Promise<TemplateDefinition> {
-  const templates = getTemplatesList();
+  const templates = getTemplates();
 
   console.log("\nAvailable templates:");
 
