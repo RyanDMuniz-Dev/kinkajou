@@ -1,20 +1,23 @@
 #!/usr/bin/env node
 
-import { error } from "node:console";
 import { createProject } from "./project-generator.js";
 import { promptForProject } from "./interactive-cli.js";
+import { installDependencies } from "./package-manager.js";
+import { join } from "node:path";
 
 interface ParsedArguments {
-    commmand: string | undefined;
+    command: string | undefined;
     projectName: string | undefined;
-    templateName: string;
+    templateName: string | undefined;
+    install: boolean
 }
 
 function parseArguments(args: string[]) : ParsedArguments {
-    const commmand = args[0];
+    const command = args[0];
     const projectName = args[1];
 
     let templateName = "none";
+    let install = false;
 
     for (let index = 2; index < args.length; index++) {
         const argument = args[index];
@@ -34,21 +37,28 @@ function parseArguments(args: string[]) : ParsedArguments {
             continue;
         }
 
+        if (argument === "--install") {
+            install = true;
+            continue;
+        }
+
         throw new Error(
             `Unknown option: ${argument}`
         );
     }
 
     return {
-        commmand,
+        command,
         projectName,
-        templateName
+        templateName,
+        install
     }
 }
 
 async function handleNewCommand(
     projectName: string | undefined,
-    templateName: string
+    templateName: string | undefined,
+    install: boolean
 ): Promise<void> {
     if(!projectName) {
         const answers = await promptForProject();
@@ -62,6 +72,13 @@ async function handleNewCommand(
         templateName
     )
 
+    if (install) {
+        await installDependencies(
+            "pnpm",
+            join(process.cwd(), projectName)
+        )
+    }
+
     console.log(
         `\nProject "${projectName}" created successfully!`
     );
@@ -71,22 +88,24 @@ async function main(): Promise<void> {
     const args = process.argv.slice(2);
 
     const {
-        commmand,
+        command,
         projectName,
-        templateName
+        templateName,
+        install
     } = parseArguments(args);
 
-    if (commmand === "new") {
+    if (command === "new") {
         await handleNewCommand(
             projectName,
-            templateName
+            templateName,
+            install
         );
 
         return;
     }
 
     throw new Error(
-        `Unknown command: ${commmand ?? "(none)"}`
+        `Unknown command: ${command ?? "(none)"}`
     );
 
 }
