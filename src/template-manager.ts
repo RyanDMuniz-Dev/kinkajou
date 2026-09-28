@@ -1,6 +1,8 @@
 import { fileURLToPath } from "node:url";
 
-export type TemplateName = "none";
+export type TemplateName = 
+    | "none"
+    | "vite-ts";
 
 export interface TemplateDefinition {
     readonly name: TemplateName;
@@ -14,6 +16,13 @@ const TEMPLATE_REGISTRY: Record<TemplateName, TemplateDefinition> = {
         description: "Pure HTML, CSS and JavaScript",
         directory: fileURLToPath(
             new URL("../templates/none", import.meta.url)
+        )
+    },
+    "vite-ts": {
+        name: "vite-ts",
+        description: "Vite + TypeScript",
+        directory: fileURLToPath(
+            new URL("../templates/vite-ts", import.meta.url)
         )
     }
 }

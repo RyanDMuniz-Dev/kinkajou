@@ -1,6 +1,6 @@
 {
   "name": "webforge",
-  "version": "0.3.0",
+  "version": "0.4.0",
   "description": "CLI for creating web projects",
   "main": "dist/index.js",
   "bin": {
