@@ -2,6 +2,7 @@
 
 import { error } from "node:console";
 import { createProject } from "./project-generator.js";
+import { promptForProject } from "./interactive-cli.js";
 
 interface ParsedArguments {
     commmand: string | undefined;
@@ -50,9 +51,10 @@ async function handleNewCommand(
     templateName: string
 ): Promise<void> {
     if(!projectName) {
-        throw new Error(
-            "Project name is required"
-        );
+        const answers = await promptForProject();
+
+        projectName = answers.projectName;
+        templateName = answers.templateName;
     }
 
     await createProject(
@@ -61,7 +63,7 @@ async function handleNewCommand(
     )
 
     console.log(
-        `Project "${projectName}" created successfully!`
+        `\nProject "${projectName}" created successfully!`
     );
 }
 

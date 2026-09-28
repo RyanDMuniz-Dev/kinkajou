@@ -35,3 +35,7 @@ export function getTemplate(name: string): TemplateDefinition {
 
     return TEMPLATE_REGISTRY[name];
 }
+
+export function getTemplatesList(): TemplateDefinition[] {
+    return Object.values(TEMPLATE_REGISTRY);
+}
