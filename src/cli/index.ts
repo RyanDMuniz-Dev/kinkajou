@@ -4,6 +4,7 @@ import { createProject } from "../project/project-generator.js";
 import { promptForProject } from "./interactive-cli.js";
 import { installDependencies, isPackageManager, type PackageManager } from "../package-manager/package-manager.js";
 import { join } from "node:path";
+import { handleConfigCommand } from "./config-cli.js";
 
 interface ParsedArguments {
     command: string | undefined;
@@ -110,16 +111,25 @@ async function handleNewCommand(
 
 async function main(): Promise<void> {
     const args = process.argv.slice(2);
+    const command = args[0];
+
+    if (command === "config") {
+        await handleConfigCommand(
+            args.slice(1)
+        );
+
+        return;
+    }
 
     const {
-        command,
+        command: parsedCommand,
         projectName,
         templateName,
         install,
         packageManager
     } = parseArguments(args);
 
-    if (command === "new") {
+    if (parsedCommand === "new") {
         await handleNewCommand(
             projectName,
             templateName,
@@ -131,9 +141,8 @@ async function main(): Promise<void> {
     }
 
     throw new Error(
-        `Unknown command: ${command ?? "(none)"}`
+        `Unknown command: ${parsedCommand ?? "(none)"}`
     );
-
 }
 
 main().catch((error: unknown) => {
