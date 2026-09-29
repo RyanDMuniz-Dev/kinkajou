@@ -11,7 +11,7 @@ app.innerHTML = `
     <h1>{{PROJECT_NAME}}</h1>
 
     <p>
-      Projeto criado com WebForge + Vite + TypeScript.
+      Projeto criado com Kinkajou + Vite + TypeScript.
     </p>
 
     <button id="counter">

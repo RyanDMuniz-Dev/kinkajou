@@ -1,10 +1,10 @@
 {
-  "name": "webforge",
+  "name": "kinkajou",
   "version": "0.5.3",
   "description": "CLI for creating web projects",
   "main": "dist/index.js",
   "bin": {
-    "webforge": "dist/cli/index.js"
+    "kajo": "dist/cli/index.js"
   },
   "scripts": {
     "build": "tsc"

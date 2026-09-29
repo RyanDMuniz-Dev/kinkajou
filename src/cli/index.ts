@@ -5,13 +5,14 @@ import { promptForProject } from "./interactive-cli.js";
 import { installDependencies, isPackageManager, type PackageManager } from "../package-manager/package-manager.js";
 import { join } from "node:path";
 import { handleConfigCommand } from "./config-cli.js";
+import { resolvePackageManager } from "../config/config-resolver.js";
 
 interface ParsedArguments {
     command: string | undefined;
     projectName: string | undefined;
     templateName: string | undefined;
     install: boolean;
-    packageManager: PackageManager;
+    packageManager: PackageManager | undefined;
 }
 
 function parseArguments(args: string[]) : ParsedArguments {
@@ -20,7 +21,7 @@ function parseArguments(args: string[]) : ParsedArguments {
 
     let templateName = "none";
     let install = false;
-    let packageManager: PackageManager = "pnpm";
+    let packageManager: PackageManager | undefined;
 
     for (let index = 2; index < args.length; index++) {
         const argument = args[index];
@@ -83,7 +84,7 @@ async function handleNewCommand(
     projectName: string | undefined,
     templateName: string | undefined,
     install: boolean,
-    packageManager: PackageManager
+    packageManager: PackageManager | undefined
 ): Promise<void> {
     if(!projectName) {
         const answers = await promptForProject();
@@ -98,10 +99,12 @@ async function handleNewCommand(
     )
 
     if (install) {
+        const resolvedPackageManager = await resolvePackageManager(packageManager);
+
         await installDependencies(
-            packageManager,
+            resolvedPackageManager,
             join(process.cwd(), projectName)
-        )
+        );
     }
 
     console.log(

@@ -12,12 +12,12 @@ import {
     type PackageManager
  } from "../package-manager/package-manager.js";
 
-import type { WebForgeConfig } from "./config-types.js";
+import type { KinkajouConfig } from "./config-types.js";
 
-const CONFIG_DIRECTORY = ".webforge";
+const CONFIG_DIRECTORY = ".kinkajou";
 const CONFIG_FILE = "config.json";
 
-const DEFAULT_CONFIG: WebForgeConfig = {
+const DEFAULT_CONFIG: KinkajouConfig = {
     manager: "pnpm"
 };
 
@@ -35,7 +35,7 @@ function getConfigPath(): string {
     );
 }
 
-export async function loadConfig(): Promise<WebForgeConfig> {
+export async function loadConfig(): Promise<KinkajouConfig> {
     const configPath = getConfigPath();
 
     try {
@@ -46,13 +46,13 @@ export async function loadConfig(): Promise<WebForgeConfig> {
 
         return JSON.parse(
             content
-        ) as WebForgeConfig;
+        ) as KinkajouConfig;
     } catch {
         return DEFAULT_CONFIG;
     }
 }
 
-export async function saveConfig(config: WebForgeConfig): Promise<void> {
+export async function saveConfig(config: KinkajouConfig): Promise<void> {
     const directory = getConfigDirectory();
 
     await mkdir(directory, {
@@ -67,7 +67,7 @@ export async function saveConfig(config: WebForgeConfig): Promise<void> {
 }
 
 export async function setConfigValue(
-    key: keyof WebForgeConfig,
+    key: keyof KinkajouConfig,
     value: string
 ): Promise<void> {
     const config = await loadConfig();
@@ -92,8 +92,10 @@ export async function setConfigValue(
     );
 }
 
-export async function getConfigValue(key: keyof WebForgeConfig): Promise<string> {
+export async function getConfigValue<K extends keyof KinkajouConfig>(
+    key: K
+): Promise<KinkajouConfig[K]> {
     const config = await loadConfig();
 
-    return config[key]
+    return config[key];
 }
