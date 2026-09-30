@@ -6,6 +6,8 @@ import { installDependencies, isPackageManager, type PackageManager } from "../p
 import { join } from "node:path";
 import { handleConfigCommand } from "./config-cli.js";
 import { resolvePackageManager } from "../config/config-resolver.js";
+import { showHelp } from "./help.js";
+import { showVersion } from "./version.js";
 
 interface ParsedArguments {
     command: string | undefined;
@@ -115,6 +117,16 @@ async function handleNewCommand(
 async function main(): Promise<void> {
     const args = process.argv.slice(2);
     const command = args[0];
+
+    if (command === "--help" || command === "-h" || command === "help") {
+        showHelp();
+        return;
+    }
+
+    if (command === "--version" || command === "-v" || command === "version") {
+        showVersion();
+        return;
+    }
 
     if (command === "config") {
         await handleConfigCommand(
