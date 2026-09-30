@@ -156,7 +156,8 @@ async function main(): Promise<void> {
     }
 
     throw new Error(
-        `Unknown command: ${parsedCommand ?? "(none)"}`
+        `Unknown command: ${parsedCommand ?? "(none)"}` + 
+        '\n\n Run "kajo --help" to see available commands.'
     );
 }
 

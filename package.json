@@ -1,6 +1,6 @@
 {
   "name": "kinkajou",
-  "version": "0.5.3",
+  "version": "0.6.0",
   "description": "CLI for creating web projects",
   "main": "dist/index.js",
   "bin": {
