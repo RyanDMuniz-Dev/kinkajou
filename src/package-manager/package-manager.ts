@@ -49,3 +49,7 @@ export async function installDependencies(
         }
     );
 }
+
+export function getPackageManager(): PackageManager[] {
+    return Object.keys(PACKAGE_MANAGERS) as PackageManager[];
+}

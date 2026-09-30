@@ -93,6 +93,8 @@ async function handleNewCommand(
 
         projectName = answers.projectName;
         templateName = answers.templateName;
+        install = answers.install;
+        packageManager = answers.packageManager;
     }
 
     await createProject(
