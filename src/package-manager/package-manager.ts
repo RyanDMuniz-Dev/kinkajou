@@ -50,6 +50,6 @@ export async function installDependencies(
     );
 }
 
-export function getPackageManager(): PackageManager[] {
+export function getPackageManager(): readonly PackageManager[] {
     return Object.keys(PACKAGE_MANAGERS) as PackageManager[];
 }

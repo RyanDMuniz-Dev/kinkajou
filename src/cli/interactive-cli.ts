@@ -1,19 +1,21 @@
 import { createInterface } from "node:readline/promises";
-import { config, stdin as input, stdout as output } from "node:process";
+import { stdin as input, stdout as output } from "node:process";
 
 import {
   getTemplates,
-  type TemplateDefinition
+  type TemplateDefinition,
+  type TemplateName
 } from "../project/template-manager.js";
 import { 
   getPackageManager,
   type PackageManager,
 } from "../package-manager/package-manager.js";
 import { getConfigValue } from "../config/config-manager.js";
+import { validateProjectName } from "../project/project-validator.js";
 
 interface ProjectAnswers {
   readonly projectName: string;
-  readonly templateName: string;
+  readonly templateName: TemplateName;
   readonly install: boolean;
   readonly packageManager: PackageManager | undefined;
 }
@@ -80,20 +82,6 @@ async function promptForTemplate(
       "Invalid template choice. Please try again."
     );
   }
-}
-
-function validateProjectName(
-  projectName: string
-): string | undefined {
-  const trimmedName = projectName.trim();
-
-  if (!trimmedName)
-    return "Project name cannot be empty.";
-
-  if (trimmedName.includes("/") || trimmedName.includes("\\"))
-    return "Project name cannot contain path separators.";
-
-  return undefined;
 }
 
 async function promptForProjectName(rl: ReturnType<typeof createInterface>): Promise<string> {

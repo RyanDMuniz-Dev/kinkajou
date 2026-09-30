@@ -8,6 +8,7 @@ import { handleConfigCommand } from "./config-cli.js";
 import { resolvePackageManager } from "../config/config-resolver.js";
 import { showHelp } from "./help.js";
 import { showVersion } from "./version.js";
+import { validateProjectName } from "../project/project-validator.js";
 
 interface ParsedArguments {
     command: string | undefined;
@@ -19,6 +20,13 @@ interface ParsedArguments {
 
 function parseArguments(args: string[]) : ParsedArguments {
     const command = args[0];
+
+    if (command === "new" && args[1]?.startsWith("-")) {
+        throw new Error(
+            `The "new" command requires a project name when options are provided.`
+        );
+    }
+
     const projectName = args[1];
 
     let templateName = "none";
@@ -97,6 +105,14 @@ async function handleNewCommand(
         packageManager = answers.packageManager;
     }
 
+    const projectNameError = validateProjectName(projectName);
+
+    if (projectNameError) {
+        throw new Error(
+            `Invalid project name: ${projectNameError}`
+        );
+    }
+
     await createProject(
         projectName,
         templateName
@@ -159,7 +175,7 @@ async function main(): Promise<void> {
 
     throw new Error(
         `Unknown command: ${parsedCommand ?? "(none)"}` + 
-        '\n\n Run "kajo --help" to see available commands.'
+        '\n\nRun "kajo --help" to see available commands.'
     );
 }
 
@@ -167,7 +183,7 @@ main().catch((error: unknown) => {
     if (error instanceof Error) {
         console.error(`Error: ${error.message}`);
     } else {
-        console.error("An unknown error ocurred.");
+        console.error("An unknown error occurred.");
     }
 
     process.exit(1);
