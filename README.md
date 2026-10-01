@@ -2,7 +2,7 @@
 
 > A lightweight CLI for creating web projects from reusable templates.
 
-[![Version](https://img.shields.io/badge/version-0.8.0-blue.svg)](https://github.com/SEU_USUARIO/kinkajou)
+[![Version](https://img.shields.io/badge/version-0.8.0-blue.svg)](https://github.com/RyanDMuniz-Dev/kinkajou/releases/tag/v0.8.0)
 [![Tests](https://img.shields.io/badge/tests-64%20passed-brightgreen.svg)](https://github.com/SEU_USUARIO/kinkajou)
 [![TypeScript](https://img.shields.io/badge/TypeScript-7.0.2-3178C6.svg)](https://www.typescriptlang.org/)
 [![Node.js](https://img.shields.io/badge/Node.js-24.x-339933.svg)](https://nodejs.org/)
