@@ -21,9 +21,13 @@ const DEFAULT_CONFIG: KinkajouConfig = {
     manager: "pnpm"
 };
 
-function getConfigDirectory(): string {
+function getConfigDirectory (): string {
+    const baseDirectory =
+        process.env.KINKAJOU_CONFIG_HOME ??
+        homedir()
+
     return join(
-        homedir(),
+        baseDirectory,
         CONFIG_DIRECTORY
     );
 }

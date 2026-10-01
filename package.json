@@ -7,8 +7,8 @@
     "kajo": "dist/cli/index.js"
   },
   "scripts": {
-    "build": "tsc",
-    "build:test": "tsc -p tsconfig.test.json",
+    "build": "tsc && node scripts/copy-templates.mjs dist",
+    "build:test": "tsc -p tsconfig.test.json && node scripts/copy-templates.mjs dist-test && node scripts/copy-package-json.mjs dist-test",
     "test": "pnpm run build:test && node --test \"dist-test/tests/**/*.test.js\""
   },
   "keywords": [

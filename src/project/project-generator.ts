@@ -17,7 +17,7 @@ export async function createProject(
 
     await mkdir(projectPath);
 
-    renderTemplate(
+    await renderTemplate(
         template.directory,
         projectPath,
         {
