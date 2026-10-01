@@ -1,13 +1,15 @@
 {
   "name": "kinkajou",
-  "version": "0.7.1",
+  "version": "0.8.0",
   "description": "CLI for creating web projects",
   "main": "dist/index.js",
   "bin": {
     "kajo": "dist/cli/index.js"
   },
   "scripts": {
-    "build": "tsc"
+    "build": "tsc",
+    "build:test": "tsc -p tsconfig.test.json",
+    "test": "pnpm run build:test && node --test \"dist-test/tests/**/*.test.js\""
   },
   "keywords": [
     "cli",
@@ -27,6 +29,6 @@
   "type": "module",
   "devDependencies": {
     "@types/node": "^26.6.3",
-    "typescript": "^7.0.2"
+    "typescript": "7.0.2"
   }
 }
